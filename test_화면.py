@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.font_manager as fm
 
 # 기본 폰트 설정
-plt.rcParams['font.family'] = 'Nanum Gothic'  # Streamlit Cloud에서 지원하는 한글 폰트
+plt.rcParams['font.family'] = 'Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
 np.random.seed(0)
