@@ -76,6 +76,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+# 한글 폰트 설정
+plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우에서 사용하는 경우
+# plt.rcParams['font.family'] = 'AppleGothic'  # Mac에서 사용하는 경우
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+
 # 가상의 RPA 작업 데이터 생성
 data = {
     'Task': ['Task A', 'Task B', 'Task C', 'Task D'],
