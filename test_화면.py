@@ -1,60 +1,49 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.font_manager as fm
+from sqlalchemy import create_engine
 
-# 기본 폰트 설정
-plt.rcParams['font.family'] = 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+# MariaDB 연결 정보 설정
+# 아래 항목을 자신의 MariaDB 서버 정보로 변경하세요.
+DB_USER = "ddm2"  # MariaDB 사용자 이름
+DB_PASSWORD = "chainhan12!"  # MariaDB 비밀번호
+DB_HOST = "172.18.30.14"  # MariaDB 서버 IP 주소 (예: '192.168.1.100')
+DB_PORT = "3306"  # 기본 MariaDB 포트 (필요 시 다른 포트 입력)
+DB_NAME = "rpa_system"  # 연결하려는 데이터베이스 이름
 
-np.random.seed(0)
-tasks = [f'작업 {chr(65 + i)}' for i in range(50)]
-statuses = np.random.choice(['완료', '실패', '진행 중'], 50)
-processed_items = np.random.randint(50, 200, size=50)
-processing_times = np.random.randint(5, 30, size=50)
+# MariaDB 연결 URL 구성
+DB_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-data = {
-    '작업': tasks,
-    '상태': statuses,
-    '처리된 항목 수': processed_items,
-    '처리 시간 (분)': processing_times
-}
+# SQLAlchemy 엔진 생성
+engine = create_engine(DB_URL)
 
-df = pd.DataFrame(data)
+# 데이터베이스에서 데이터 불러오기 함수
+@st.cache_data
+def load_data(query):
+    with engine.connect() as connection:
+        data = pd.read_sql(query, connection)
+    return data
 
-# Streamlit 제목 및 데이터프레임 표시
-st.title("RPA 시스템 대시보드")
+# Streamlit 앱 시작
+st.title("MariaDB 데이터 시각화 대시보드")
 
-# 전체 데이터 표시
-st.header("전체 작업 데이터")
-st.dataframe(df)
+# 데이터 쿼리 작성
+query = "SELECT * FROM rpa_history"  # 원하는 쿼리 작성
+data = load_data(query)
 
-# 상태별 처리된 항목 수 막대 그래프
-st.header("상태별 처리된 항목 수")
-status_summary = df.groupby('상태')['처리된 항목 수'].sum().reset_index()
+# 데이터 표시
+if not data.empty:
+    st.write("데이터 미리보기:")
+    st.dataframe(data)  # 테이블 형태로 데이터 출력
+    
+    # 데이터 시각화 - 예시로 막대 그래프와 라인 그래프 표시
+    st.write("데이터 시각화 (막대 그래프):")
+    if 'category_column' in data.columns and 'value_column' in data.columns:
+        bar_chart_data = data[['category_column', 'value_column']].set_index('category_column')
+        st.bar_chart(bar_chart_data)
 
-fig, ax = plt.subplots()
-ax.bar(status_summary['상태'], status_summary['처리된 항목 수'], color='skyblue')
-ax.set_xlabel('상태')
-ax.set_ylabel('처리된 항목 수')
-ax.set_title('상태별 처리된 항목 수')
-st.pyplot(fig)
-
-# 작업별 처리 시간 히스토그램
-st.header("작업별 처리 시간 분포")
-fig, ax = plt.subplots()
-ax.hist(df['처리 시간 (분)'], bins=10, color='lightgreen', edgecolor='black')
-ax.set_xlabel('처리 시간 (분)')
-ax.set_ylabel('빈도수')
-ax.set_title('작업별 처리 시간 분포')
-st.pyplot(fig)
-
-# 상태별 작업 현황 필터링
-st.header("상태별 작업 현황")
-status_filter = st.selectbox("상태 선택", ["모두"] + list(df['상태'].unique()))
-if status_filter != "모두":
-    filtered_df = df[df['상태'] == status_filter]
+    st.write("데이터 시각화 (라인 그래프):")
+    if 'date_column' in data.columns and 'value_column' in data.columns:
+        line_chart_data = data[['date_column', 'value_column']].set_index('date_column')
+        st.line_chart(line_chart_data)
 else:
-    filtered_df = df
-st.dataframe(filtered_df)
+    st.error("데이터를 불러올 수 없습니다.")
