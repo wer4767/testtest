@@ -4,4 +4,4 @@ pandas
 numpy
 sqlalchemy
 uv
-option_menu
+streamlit_option_menu
