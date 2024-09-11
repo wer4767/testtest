@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-
-# 가상의 대량 RPA 작업 데이터 생성
 import numpy as np
 
-plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우에서 사용하는 경우
-# plt.rcParams['font.family'] = 'AppleGothic'  # Mac에서 사용하는 경우
+# 기본 폰트 설정
+plt.rcParams['font.family'] = 'Malgun Gothic'  # Windows에서 기본으로 지원하는 폰트
+# plt.rcParams['font.family'] = 'AppleGothic'  # macOS에서 기본으로 지원하는 폰트
 plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
 np.random.seed(0)
