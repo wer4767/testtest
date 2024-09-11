@@ -5,7 +5,7 @@ import matplotlib.font_manager as fm
 import numpy as np
 
 # 한글 폰트 설정 (폰트 경로는 시스템에 따라 다를 수 있음)
-font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+font_path = 'C:/Windows/Fonts/NanumGothic.ttf'
 font_prop = fm.FontProperties(fname=font_path)
 
 plt.rcParams['font.family'] = font_prop.get_name()
