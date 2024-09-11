@@ -3,5 +3,4 @@ matplotlib
 pandas
 numpy
 sqlalchemy
-option_menu
 uv
