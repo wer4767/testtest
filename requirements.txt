@@ -5,3 +5,4 @@ numpy
 sqlalchemy
 uv
 streamlit_option_menu
+pymysql
