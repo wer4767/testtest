@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 # 가상의 대량 RPA 작업 데이터 생성
 import numpy as np
 
+plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우에서 사용하는 경우
+# plt.rcParams['font.family'] = 'AppleGothic'  # Mac에서 사용하는 경우
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+
 np.random.seed(0)
 tasks = [f'작업 {chr(65 + i)}' for i in range(50)]
 statuses = np.random.choice(['완료', '실패', '진행 중'], 50)
