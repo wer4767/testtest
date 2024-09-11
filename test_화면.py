@@ -4,8 +4,8 @@ from sqlalchemy import create_engine
 
 # MariaDB 연결 정보 설정
 # 아래 항목을 자신의 MariaDB 서버 정보로 변경하세요.
-DB_USER = "ddm2"  # MariaDB 사용자 이름
-DB_PASSWORD = "chainhan12!"  # MariaDB 비밀번호
+DB_USER = "root"  # MariaDB 사용자 이름
+DB_PASSWORD = "1234"  # MariaDB 비밀번호
 DB_HOST = "172.18.30.14"  # MariaDB 서버 IP 주소 (예: '192.168.1.100')
 DB_PORT = "3306"  # 기본 MariaDB 포트 (필요 시 다른 포트 입력)
 DB_NAME = "rpa_system"  # 연결하려는 데이터베이스 이름
